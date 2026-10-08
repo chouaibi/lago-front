@@ -314,6 +314,18 @@ describe('usePermissionsInvoiceActions', () => {
       ).toBe(false)
     })
 
+    it('should return false when customer is connected to Mastercard', async () => {
+      const { result } = await prepare()
+
+      expect(
+        result.current.canGeneratePaymentUrl({
+          status: InvoiceStatusTypeEnum.Finalized,
+          paymentStatus: InvoicePaymentStatusTypeEnum.Pending,
+          customer: { paymentProvider: ProviderTypeEnum.Mastercard },
+        }),
+      ).toBe(false)
+    })
+
     it('should return false when invoice is not finalized', async () => {
       const { result } = await prepare()
 

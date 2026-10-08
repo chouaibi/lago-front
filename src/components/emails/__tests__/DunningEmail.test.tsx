@@ -111,6 +111,21 @@ describe('DunningEmail', () => {
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
   })
 
+  it('does not show payment button when payment provider is Mastercard', () => {
+    render(
+      <DunningEmail
+        locale={LocaleEnum.en}
+        invoices={mockInvoices}
+        customer={{ ...mockCustomer, paymentProvider: ProviderTypeEnum.Mastercard }}
+        organization={mockOrganization}
+        currency={CurrencyEnum.Usd}
+        overdueAmount={300}
+      />,
+    )
+
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+  })
+
   it('displays organization email when provided', () => {
     render(
       <DunningEmail

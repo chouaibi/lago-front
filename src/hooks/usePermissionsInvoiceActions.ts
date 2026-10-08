@@ -5,10 +5,17 @@ import {
   InvoicePaymentStatusTypeEnum,
   InvoiceStatusTypeEnum,
   InvoiceTaxStatusTypeEnum,
+  ProviderTypeEnum,
 } from '~/generated/graphql'
 import { usePermissions } from '~/hooks/usePermissions'
 
 const { disablePdfGeneration } = envGlobalVar()
+
+// API `Invoices::Payments::GeneratePaymentUrlService::NO_PAYMENT_URL_PROVIDERS`: no hosted
+// payment page, the stored card is charged instead.
+const PROVIDERS_WITHOUT_PAYMENT_URL: ReadonlySet<ProviderTypeEnum> = new Set([
+  ProviderTypeEnum.Mastercard,
+])
 
 export const usePermissionsInvoiceActions = () => {
   const { hasPermissions } = usePermissions()
@@ -35,8 +42,11 @@ export const usePermissionsInvoiceActions = () => {
       customer: Pick<Invoice['customer'], 'paymentProvider'>
     },
   ): boolean => {
+    const paymentProvider = invoice.customer?.paymentProvider
+
     return (
-      !!invoice.customer?.paymentProvider &&
+      !!paymentProvider &&
+      !PROVIDERS_WITHOUT_PAYMENT_URL.has(paymentProvider) &&
       invoice.status === InvoiceStatusTypeEnum.Finalized &&
       invoice.paymentStatus !== InvoicePaymentStatusTypeEnum.Succeeded
     )

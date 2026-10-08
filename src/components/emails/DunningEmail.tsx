@@ -18,6 +18,12 @@ import {
 import { useContextualLocale } from '~/hooks/core/useContextualLocale'
 import { tw } from '~/styles/utils'
 
+// Mirrors `NO_PAYMENT_URL_PROVIDERS` in the API: no hosted payment page, so the email has no pay link.
+const PROVIDERS_WITHOUT_PAYMENT_LINK: ReadonlySet<ProviderTypeEnum> = new Set([
+  ProviderTypeEnum.Gocardless,
+  ProviderTypeEnum.Mastercard,
+])
+
 gql`
   fragment CustomerForDunningEmail on Customer {
     id
@@ -143,7 +149,7 @@ export const DunningEmail: FC<DunningEmailProps> = ({
         </div>
 
         {!!customer?.paymentProvider &&
-          customer.paymentProvider !== ProviderTypeEnum.Gocardless && (
+          !PROVIDERS_WITHOUT_PAYMENT_LINK.has(customer.paymentProvider) && (
             <Button
               className={tw('pointer-events-none cursor-default')}
               variant="primary"
