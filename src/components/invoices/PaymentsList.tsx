@@ -67,6 +67,9 @@ gql`
       ... on GocardlessProvider {
         name
       }
+      ... on MastercardProvider {
+        name
+      }
       ... on MoneyhashProvider {
         name
       }

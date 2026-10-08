@@ -32,6 +32,7 @@ export const INTEGRATION_TYPE_TO_CATEGORY: Partial<
 export const PROVIDERS_WITHOUT_CUSTOMER_MAPPING: ReadonlySet<ProviderTypeEnum> = new Set([
   ProviderTypeEnum.Cashfree,
   ProviderTypeEnum.Flutterwave,
+  ProviderTypeEnum.Mastercard,
 ])
 
 export const integrationTypeToTypename: Partial<Record<IntegrationTypeEnum, string>> = {

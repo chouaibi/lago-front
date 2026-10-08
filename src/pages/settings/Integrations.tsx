@@ -23,6 +23,7 @@ import { useAddFlutterwaveDialog } from '~/components/settings/integrations/AddF
 import { useAddGocardlessDialog } from '~/components/settings/integrations/AddGocardlessDialog'
 import { useAddHubspotDialog } from '~/components/settings/integrations/AddHubspotDialog'
 import { useAddLagoTaxManagementDialog } from '~/components/settings/integrations/AddLagoTaxManagementDialog'
+import { useAddMastercardDialog } from '~/components/settings/integrations/AddMastercardDialog'
 import { useAddMoneyhashDialog } from '~/components/settings/integrations/AddMoneyhashDialog'
 import { useAddNetsuiteDialog } from '~/components/settings/integrations/AddNetsuiteDialog'
 import { useAddSalesforceDialog } from '~/components/settings/integrations/AddSalesforceDialog'
@@ -44,6 +45,7 @@ import {
   GOCARDLESS_INTEGRATION_ROUTE,
   HUBSPOT_INTEGRATION_ROUTE,
   INTEGRATIONS_ROUTE,
+  MASTERCARD_INTEGRATION_ROUTE,
   MONEYHASH_INTEGRATION_ROUTE,
   NETSUITE_INTEGRATION_ROUTE,
   SALESFORCE_INTEGRATION_ROUTE,
@@ -70,6 +72,7 @@ import GoCardless from '~/public/images/gocardless.svg'
 import HightTouch from '~/public/images/hightouch.svg'
 import Hubspot from '~/public/images/hubspot.svg'
 import LagoTaxManagement from '~/public/images/lago-tax-management.svg'
+import Mastercard from '~/public/images/mastercard.svg'
 import Moneyhash from '~/public/images/moneyhash.svg'
 import Netsuite from '~/public/images/netsuite.svg'
 import Oso from '~/public/images/oso.svg'
@@ -103,6 +106,10 @@ gql`
         }
 
         ... on FlutterwaveProvider {
+          id
+        }
+
+        ... on MastercardProvider {
           id
         }
       }
@@ -153,6 +160,7 @@ const Integrations = () => {
   const { openAddFlutterwaveDialog } = useAddFlutterwaveDialog()
   const { openAddHubspotDialog } = useAddHubspotDialog()
   const { openAddMoneyhashDialog } = useAddMoneyhashDialog()
+  const { openAddMastercardDialog } = useAddMastercardDialog()
 
   const { data, loading } = useIntegrationsSettingQuery({
     variables: { limit: 1000 },
@@ -183,6 +191,9 @@ const Integrations = () => {
   )
   const hasFlutterwaveIntegration = data?.paymentProviders?.collection?.some(
     (provider) => provider?.__typename === 'FlutterwaveProvider',
+  )
+  const hasMastercardIntegration = data?.paymentProviders?.collection?.some(
+    (provider) => provider?.__typename === 'MastercardProvider',
   )
   const hasTaxManagement = !!hasBillingEntitiesWithTaxManagement
   const hasAccessToAvalaraPremiumIntegration = !!premiumIntegrations?.includes(
@@ -770,6 +781,36 @@ const Integrations = () => {
                             )
                           } else {
                             openAddLagoTaxManagementDialog()
+                          }
+                        }}
+                      />
+                      <Selector
+                        fullWidth
+                        title={translate('text_1791490426176do7yw15mhfd')}
+                        subtitle={translate('text_634ea0ecc6147de10ddb6631')}
+                        icon={
+                          <Avatar size="big" variant="connector-full">
+                            <Mastercard />
+                          </Avatar>
+                        }
+                        endContent={getEndContent({
+                          showConnectedBadge: hasMastercardIntegration,
+                        })}
+                        hoverActions={getHoverActions(
+                          hasMastercardIntegration,
+                          generatePath(MASTERCARD_INTEGRATION_ROUTE, {
+                            integrationGroup: IntegrationsTabsOptionsEnum.Community,
+                          }),
+                        )}
+                        onClick={() => {
+                          if (hasMastercardIntegration) {
+                            navigate(
+                              generatePath(MASTERCARD_INTEGRATION_ROUTE, {
+                                integrationGroup: IntegrationsTabsOptionsEnum.Community,
+                              }),
+                            )
+                          } else {
+                            openAddMastercardDialog()
                           }
                         }}
                       />

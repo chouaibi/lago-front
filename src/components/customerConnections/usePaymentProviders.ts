@@ -51,6 +51,13 @@ gql`
           name
           code
         }
+
+        ... on MastercardProvider {
+          __typename
+          id
+          name
+          code
+        }
       }
     }
   }

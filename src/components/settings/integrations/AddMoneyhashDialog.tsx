@@ -55,6 +55,9 @@ gql`
       ... on MoneyhashProvider {
         id
       }
+      ... on MastercardProvider {
+        id
+      }
     }
   }
   mutation addMoneyhashApiKey($input: AddMoneyhashPaymentProviderInput!) {

@@ -56,6 +56,9 @@ gql`
       ... on MoneyhashProvider {
         id
       }
+      ... on MastercardProvider {
+        id
+      }
     }
   }
 

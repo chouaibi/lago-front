@@ -25,6 +25,7 @@ export const providerLabels: Record<ProviderTypeEnum, string> = {
   [ProviderTypeEnum.Cashfree]: 'text_17367626793434wkg1rk0114',
   [ProviderTypeEnum.Flutterwave]: 'text_1749724395108m0swrna0zt4',
   [ProviderTypeEnum.Moneyhash]: 'text_1733427981129n3wxjui0bex',
+  [ProviderTypeEnum.Mastercard]: 'text_1791490426176do7yw15mhfd',
 }
 
 export const PaymentProviderChip: FC<PaymentProviderChipProps> = ({

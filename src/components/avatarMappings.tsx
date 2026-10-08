@@ -8,6 +8,7 @@ import Cashfree from '~/public/images/cashfree.svg'
 import Flutterwave from '~/public/images/flutterwave.svg'
 import GoCardless from '~/public/images/gocardless.svg'
 import Hubspot from '~/public/images/hubspot.svg'
+import Mastercard from '~/public/images/mastercard.svg'
 import Moneyhash from '~/public/images/moneyhash.svg'
 import Netsuite from '~/public/images/netsuite.svg'
 import Salesforce from '~/public/images/salesforce.svg'
@@ -21,6 +22,7 @@ export const paymentAvatarMapping: Record<ProviderTypeEnum, ReactNode> = {
   [ProviderTypeEnum.Gocardless]: <GoCardless />,
   [ProviderTypeEnum.Stripe]: <Stripe />,
   [ProviderTypeEnum.Moneyhash]: <Moneyhash />,
+  [ProviderTypeEnum.Mastercard]: <Mastercard />,
 }
 
 export const integrationAvatarMapping: Partial<Record<IntegrationTypeEnum, ReactNode>> = {

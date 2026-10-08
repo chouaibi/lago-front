@@ -66,6 +66,9 @@ jest.mock('~/components/settings/integrations/AddLagoTaxManagementDialog', () =>
 jest.mock('~/components/settings/integrations/AddFlutterwaveDialog', () => ({
   useAddFlutterwaveDialog: () => ({ openAddFlutterwaveDialog: jest.fn() }),
 }))
+jest.mock('~/components/settings/integrations/AddMastercardDialog', () => ({
+  useAddMastercardDialog: () => ({ openAddMastercardDialog: jest.fn() }),
+}))
 jest.mock('~/components/dialogs/PremiumWarningDialog', () => ({
   usePremiumWarningDialog: () => ({
     open: jest.fn(),

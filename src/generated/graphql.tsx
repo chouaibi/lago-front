@@ -288,6 +288,19 @@ export type AddGocardlessPaymentProviderInput = {
   successRedirectUrl?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** Mastercard input arguments */
+export type AddMastercardPaymentProviderInput = {
+  apiPassword: Scalars['String']['input'];
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  code: Scalars['String']['input'];
+  merchantId: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  region: Scalars['String']['input'];
+  testMode?: InputMaybe<Scalars['Boolean']['input']>;
+  webhookSecret?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** Moneyhash input arguments */
 export type AddMoneyhashPaymentProviderInput = {
   apiKey: Scalars['String']['input'];
@@ -5802,6 +5815,18 @@ export type MarkOrderFormAsSignedInput = {
   signedDocument?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type MastercardProvider = {
+  __typename?: 'MastercardProvider';
+  apiPassword?: Maybe<Scalars['ObfuscatedString']['output']>;
+  code: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  merchantId?: Maybe<Scalars['ObfuscatedString']['output']>;
+  name: Scalars['String']['output'];
+  region?: Maybe<Scalars['String']['output']>;
+  testMode?: Maybe<Scalars['Boolean']['output']>;
+  webhookSecret?: Maybe<Scalars['String']['output']>;
+};
+
 export type Membership = {
   __typename?: 'Membership';
   createdAt: Scalars['ISO8601DateTime']['output'];
@@ -5887,6 +5912,8 @@ export type Mutation = {
   addFlutterwavePaymentProvider?: Maybe<FlutterwaveProvider>;
   /** Add or update Gocardless payment provider */
   addGocardlessPaymentProvider?: Maybe<GocardlessProvider>;
+  /** Add Mastercard payment provider */
+  addMastercardPaymentProvider?: Maybe<MastercardProvider>;
   /** Add Moneyhash payment provider */
   addMoneyhashPaymentProvider?: Maybe<MoneyhashProvider>;
   /** Upload an image for a quote and return its id and URL */
@@ -6205,6 +6232,8 @@ export type Mutation = {
   setPaymentMethodAsDefault?: Maybe<PaymentMethod>;
   /** Set a payment connection as the default for the customer */
   setPaymentProviderCustomerAsDefault?: Maybe<ProviderCustomer>;
+  /** Store a Mastercard card token, tokenized outside of Lago, as the default payment method of a customer */
+  storeMastercardCustomerToken?: Maybe<Customer>;
   /** Sync hubspot integration invoice */
   syncHubspotIntegrationInvoice?: Maybe<SyncHubspotInvoicePayload>;
   /** Sync integration credit note */
@@ -6286,6 +6315,8 @@ export type Mutation = {
   updateInvoice?: Maybe<Invoice>;
   /** Updates an InvoiceCustomSection */
   updateInvoiceCustomSection?: Maybe<InvoiceCustomSection>;
+  /** Update Mastercard payment provider */
+  updateMastercardPaymentProvider?: Maybe<MastercardProvider>;
   /** Update a membership */
   updateMembership?: Maybe<Membership>;
   /** Update Moneyhash payment provider */
@@ -6376,6 +6407,11 @@ export type MutationAddFlutterwavePaymentProviderArgs = {
 
 export type MutationAddGocardlessPaymentProviderArgs = {
   input: AddGocardlessPaymentProviderInput;
+};
+
+
+export type MutationAddMastercardPaymentProviderArgs = {
+  input: AddMastercardPaymentProviderInput;
 };
 
 
@@ -7189,6 +7225,11 @@ export type MutationSetPaymentProviderCustomerAsDefaultArgs = {
 };
 
 
+export type MutationStoreMastercardCustomerTokenArgs = {
+  input: StoreMastercardCustomerTokenInput;
+};
+
+
 export type MutationSyncHubspotIntegrationInvoiceArgs = {
   input: SyncHubspotIntegrationInvoiceInput;
 };
@@ -7391,6 +7432,11 @@ export type MutationUpdateInvoiceArgs = {
 
 export type MutationUpdateInvoiceCustomSectionArgs = {
   input: UpdateInvoiceCustomSectionInput;
+};
+
+
+export type MutationUpdateMastercardPaymentProviderArgs = {
+  input: UpdateMastercardPaymentProviderInput;
 };
 
 
@@ -7881,7 +7927,7 @@ export enum PaymentMethodTypeEnum {
   Provider = 'provider'
 }
 
-export type PaymentProvider = AdyenProvider | CashfreeProvider | FlutterwaveProvider | GocardlessProvider | MoneyhashProvider | StripeProvider;
+export type PaymentProvider = AdyenProvider | CashfreeProvider | FlutterwaveProvider | GocardlessProvider | MastercardProvider | MoneyhashProvider | StripeProvider;
 
 /** PaymentProviderCollection type */
 export type PaymentProviderCollection = {
@@ -8733,6 +8779,7 @@ export enum ProviderTypeEnum {
   Cashfree = 'cashfree',
   Flutterwave = 'flutterwave',
   Gocardless = 'gocardless',
+  Mastercard = 'mastercard',
   Moneyhash = 'moneyhash',
   Stripe = 'stripe'
 }
@@ -10805,6 +10852,20 @@ export enum StatusTypeEnum {
   Terminated = 'terminated'
 }
 
+/** Store Mastercard customer token input arguments */
+export type StoreMastercardCustomerTokenInput = {
+  agreementId?: InputMaybe<Scalars['String']['input']>;
+  brand?: InputMaybe<Scalars['String']['input']>;
+  cardHolderName?: InputMaybe<Scalars['String']['input']>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  customerId: Scalars['ID']['input'];
+  expirationMonth?: InputMaybe<Scalars['Int']['input']>;
+  expirationYear?: InputMaybe<Scalars['Int']['input']>;
+  last4?: InputMaybe<Scalars['String']['input']>;
+  token: Scalars['String']['input'];
+};
+
 export type StripeProvider = {
   __typename?: 'StripeProvider';
   code: Scalars['String']['output'];
@@ -11879,6 +11940,20 @@ export type UpdateInvoiceInput = {
   id: Scalars['ID']['input'];
   metadata?: InputMaybe<Array<InvoiceMetadataInput>>;
   paymentStatus?: InputMaybe<InvoicePaymentStatusTypeEnum>;
+};
+
+/** Update Mastercard input arguments */
+export type UpdateMastercardPaymentProviderInput = {
+  apiPassword?: InputMaybe<Scalars['String']['input']>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  code?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  merchantId?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  region?: InputMaybe<Scalars['String']['input']>;
+  testMode?: InputMaybe<Scalars['Boolean']['input']>;
+  webhookSecret?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Autogenerated input type of UpdateMembership */
@@ -13226,6 +13301,7 @@ export type PaymentProvidersListForCustomerCreateEditExternalAppsAccordionQuery 
       | { __typename: 'CashfreeProvider', id: string, name: string, code: string }
       | { __typename: 'FlutterwaveProvider', id: string, name: string, code: string }
       | { __typename: 'GocardlessProvider', id: string, name: string, code: string }
+      | { __typename: 'MastercardProvider', id: string, name: string, code: string }
       | { __typename: 'MoneyhashProvider', id: string, name: string, code: string }
       | { __typename: 'StripeProvider', id: string, name: string, code: string }
     > } | null };
@@ -14176,6 +14252,7 @@ export type PaymentForPaymentsListFragment = { __typename?: 'Payment', amountCen
     | { __typename?: 'CashfreeProvider', name: string }
     | { __typename?: 'FlutterwaveProvider', name: string }
     | { __typename?: 'GocardlessProvider', name: string }
+    | { __typename?: 'MastercardProvider', name: string }
     | { __typename?: 'MoneyhashProvider', name: string }
     | { __typename?: 'StripeProvider', name: string }
    | null, customer: { __typename?: 'Customer', id: string, name?: string | null, displayName: string, email?: string | null, applicableTimezone: TimezoneEnum, billingEntity: { __typename?: 'BillingEntity', id: string, code: string, name: string, email?: string | null, einvoicing: boolean, emailSettings?: Array<BillingEntityEmailSettingsEnum> | null } }, paymentReceipt?: { __typename?: 'PaymentReceipt', id: string, number: string } | null };
@@ -14448,6 +14525,7 @@ export type GetProviderByCodeForAdyenQuery = { __typename?: 'Query', paymentProv
     | { __typename?: 'CashfreeProvider', id: string }
     | { __typename?: 'FlutterwaveProvider', id: string }
     | { __typename?: 'GocardlessProvider', id: string }
+    | { __typename?: 'MastercardProvider', id: string }
     | { __typename?: 'MoneyhashProvider', id: string }
     | { __typename?: 'StripeProvider', id: string }
    | null };
@@ -14517,6 +14595,7 @@ export type GetProviderByCodeForCashfreeQuery = { __typename?: 'Query', paymentP
     | { __typename?: 'CashfreeProvider', id: string }
     | { __typename?: 'FlutterwaveProvider', id: string }
     | { __typename?: 'GocardlessProvider', id: string }
+    | { __typename?: 'MastercardProvider', id: string }
     | { __typename?: 'MoneyhashProvider', id: string }
     | { __typename?: 'StripeProvider', id: string }
    | null };
@@ -14547,6 +14626,7 @@ export type GetProviderByCodeForFlutterwaveQuery = { __typename?: 'Query', payme
     | { __typename?: 'CashfreeProvider', id: string }
     | { __typename?: 'FlutterwaveProvider', id: string }
     | { __typename?: 'GocardlessProvider', id: string }
+    | { __typename?: 'MastercardProvider', id: string }
     | { __typename?: 'MoneyhashProvider', id: string }
     | { __typename?: 'StripeProvider', id: string }
    | null };
@@ -14577,6 +14657,7 @@ export type GetProviderByCodeForGocardlessQuery = { __typename?: 'Query', paymen
     | { __typename?: 'CashfreeProvider', id: string }
     | { __typename?: 'FlutterwaveProvider', id: string }
     | { __typename?: 'GocardlessProvider', id: string }
+    | { __typename?: 'MastercardProvider', id: string }
     | { __typename?: 'MoneyhashProvider', id: string }
     | { __typename?: 'StripeProvider', id: string }
    | null };
@@ -14604,6 +14685,37 @@ export type UpdateHubspotIntegrationMutationVariables = Exact<{
 
 export type UpdateHubspotIntegrationMutation = { __typename?: 'Mutation', updateHubspotIntegration?: { __typename?: 'HubspotIntegration', id: string, name: string, code: string, defaultTargetedObject: HubspotTargetedObjectsEnum, syncInvoices?: boolean | null, syncSubscriptions?: boolean | null } | null };
 
+export type AddMastercardProviderDialogFragment = { __typename?: 'MastercardProvider', id: string, name: string, code: string, merchantId?: any | null, apiPassword?: any | null, webhookSecret?: string | null, region?: string | null, testMode?: boolean | null };
+
+export type GetProviderByCodeForMastercardQueryVariables = Exact<{
+  code?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetProviderByCodeForMastercardQuery = { __typename?: 'Query', paymentProvider?:
+    | { __typename?: 'AdyenProvider', id: string }
+    | { __typename?: 'CashfreeProvider', id: string }
+    | { __typename?: 'FlutterwaveProvider', id: string }
+    | { __typename?: 'GocardlessProvider', id: string }
+    | { __typename?: 'MastercardProvider', id: string }
+    | { __typename?: 'MoneyhashProvider', id: string }
+    | { __typename?: 'StripeProvider', id: string }
+   | null };
+
+export type AddMastercardPaymentProviderMutationVariables = Exact<{
+  input: AddMastercardPaymentProviderInput;
+}>;
+
+
+export type AddMastercardPaymentProviderMutation = { __typename?: 'Mutation', addMastercardPaymentProvider?: { __typename?: 'MastercardProvider', id: string, name: string, code: string, merchantId?: any | null, apiPassword?: any | null, webhookSecret?: string | null, region?: string | null, testMode?: boolean | null } | null };
+
+export type UpdateMastercardPaymentProviderMutationVariables = Exact<{
+  input: UpdateMastercardPaymentProviderInput;
+}>;
+
+
+export type UpdateMastercardPaymentProviderMutation = { __typename?: 'Mutation', updateMastercardPaymentProvider?: { __typename?: 'MastercardProvider', id: string, name: string, code: string, merchantId?: any | null, apiPassword?: any | null, webhookSecret?: string | null, region?: string | null, testMode?: boolean | null } | null };
+
 export type AddMoneyhashProviderDialogFragment = { __typename?: 'MoneyhashProvider', id: string, name: string, code: string, apiKey?: string | null, flowId?: string | null };
 
 export type GetProviderByCodeForMoneyhashQueryVariables = Exact<{
@@ -14616,6 +14728,7 @@ export type GetProviderByCodeForMoneyhashQuery = { __typename?: 'Query', payment
     | { __typename?: 'CashfreeProvider', id: string }
     | { __typename?: 'FlutterwaveProvider', id: string }
     | { __typename?: 'GocardlessProvider', id: string }
+    | { __typename?: 'MastercardProvider', id: string }
     | { __typename?: 'MoneyhashProvider', id: string }
     | { __typename?: 'StripeProvider', id: string }
    | null };
@@ -14678,6 +14791,7 @@ export type GetProviderByCodeForStripeQuery = { __typename?: 'Query', paymentPro
     | { __typename?: 'CashfreeProvider', id: string }
     | { __typename?: 'FlutterwaveProvider', id: string }
     | { __typename?: 'GocardlessProvider', id: string }
+    | { __typename?: 'MastercardProvider', id: string }
     | { __typename?: 'MoneyhashProvider', id: string }
     | { __typename?: 'StripeProvider', id: string }
    | null };
@@ -14898,6 +15012,15 @@ export type DeleteGocardlessMutationVariables = Exact<{
 export type DeleteGocardlessMutation = { __typename?: 'Mutation', destroyPaymentProvider?: { __typename?: 'DestroyPaymentProviderPayload', id?: string | null } | null };
 
 export type DeleteHubspotIntegrationDialogFragment = { __typename?: 'HubspotIntegration', id: string, name: string };
+
+export type DeleteMastercardIntegrationDialogFragment = { __typename?: 'MastercardProvider', id: string, name: string };
+
+export type DeleteMastercardIntegrationMutationVariables = Exact<{
+  input: DestroyPaymentProviderInput;
+}>;
+
+
+export type DeleteMastercardIntegrationMutation = { __typename?: 'Mutation', destroyPaymentProvider?: { __typename?: 'DestroyPaymentProviderPayload', id?: string | null } | null };
 
 export type DeleteMoneyhashIntegrationDialogFragment = { __typename?: 'MoneyhashProvider', id: string, name: string };
 
@@ -15845,6 +15968,7 @@ export type CreateDunningCampaignPaymentProviderQuery = { __typename?: 'Query', 
       | { __typename: 'CashfreeProvider' }
       | { __typename: 'FlutterwaveProvider' }
       | { __typename: 'GocardlessProvider' }
+      | { __typename: 'MastercardProvider' }
       | { __typename: 'MoneyhashProvider' }
       | { __typename: 'StripeProvider' }
     > } | null };
@@ -16566,6 +16690,7 @@ export type GetPaymentsListQuery = { __typename?: 'Query', payments: { __typenam
         | { __typename?: 'CashfreeProvider', name: string }
         | { __typename?: 'FlutterwaveProvider', name: string }
         | { __typename?: 'GocardlessProvider', name: string }
+        | { __typename?: 'MastercardProvider', name: string }
         | { __typename?: 'MoneyhashProvider', name: string }
         | { __typename?: 'StripeProvider', name: string }
        | null, customer: { __typename?: 'Customer', id: string, name?: string | null, displayName: string, email?: string | null, applicableTimezone: TimezoneEnum, billingEntity: { __typename?: 'BillingEntity', id: string, code: string, name: string, email?: string | null, einvoicing: boolean, emailSettings?: Array<BillingEntityEmailSettingsEnum> | null } }, paymentReceipt?: { __typename?: 'PaymentReceipt', id: string, number: string } | null }> } };
@@ -17767,6 +17892,7 @@ export type GetAdyenIntegrationsDetailsQuery = { __typename?: 'Query', paymentPr
     | { __typename?: 'CashfreeProvider' }
     | { __typename?: 'FlutterwaveProvider' }
     | { __typename?: 'GocardlessProvider' }
+    | { __typename?: 'MastercardProvider' }
     | { __typename?: 'MoneyhashProvider' }
     | { __typename?: 'StripeProvider' }
    | null, paymentProviders?: { __typename?: 'PaymentProviderCollection', collection: Array<
@@ -17774,6 +17900,7 @@ export type GetAdyenIntegrationsDetailsQuery = { __typename?: 'Query', paymentPr
       | { __typename?: 'CashfreeProvider' }
       | { __typename?: 'FlutterwaveProvider' }
       | { __typename?: 'GocardlessProvider' }
+      | { __typename?: 'MastercardProvider' }
       | { __typename?: 'MoneyhashProvider' }
       | { __typename?: 'StripeProvider' }
     > } | null };
@@ -17791,6 +17918,7 @@ export type GetAdyenIntegrationsListQuery = { __typename?: 'Query', paymentProvi
       | { __typename?: 'CashfreeProvider' }
       | { __typename?: 'FlutterwaveProvider' }
       | { __typename?: 'GocardlessProvider' }
+      | { __typename?: 'MastercardProvider' }
       | { __typename?: 'MoneyhashProvider' }
       | { __typename?: 'StripeProvider' }
     > } | null };
@@ -17980,6 +18108,7 @@ export type GetCashfreeIntegrationsDetailsQuery = { __typename?: 'Query', paymen
     | { __typename?: 'CashfreeProvider', id: string, code: string, name: string, clientId?: string | null, clientSecret?: string | null, successRedirectUrl?: string | null }
     | { __typename?: 'FlutterwaveProvider' }
     | { __typename?: 'GocardlessProvider' }
+    | { __typename?: 'MastercardProvider' }
     | { __typename?: 'MoneyhashProvider' }
     | { __typename?: 'StripeProvider' }
    | null, paymentProviders?: { __typename?: 'PaymentProviderCollection', collection: Array<
@@ -17987,6 +18116,7 @@ export type GetCashfreeIntegrationsDetailsQuery = { __typename?: 'Query', paymen
       | { __typename?: 'CashfreeProvider', id: string }
       | { __typename?: 'FlutterwaveProvider' }
       | { __typename?: 'GocardlessProvider' }
+      | { __typename?: 'MastercardProvider' }
       | { __typename?: 'MoneyhashProvider' }
       | { __typename?: 'StripeProvider' }
     > } | null };
@@ -18004,6 +18134,7 @@ export type GetCashfreeIntegrationsListQuery = { __typename?: 'Query', paymentPr
       | { __typename?: 'CashfreeProvider', id: string, name: string, code: string, clientId?: string | null, clientSecret?: string | null, successRedirectUrl?: string | null }
       | { __typename?: 'FlutterwaveProvider' }
       | { __typename?: 'GocardlessProvider' }
+      | { __typename?: 'MastercardProvider' }
       | { __typename?: 'MoneyhashProvider' }
       | { __typename?: 'StripeProvider' }
     > } | null };
@@ -18048,6 +18179,7 @@ export type FlutterwaveIntegrationDetailsQuery = { __typename?: 'Query', payment
     | { __typename?: 'CashfreeProvider' }
     | { __typename?: 'FlutterwaveProvider', id: string, name: string, code: string, secretKey?: any | null, webhookSecret?: string | null, successRedirectUrl?: string | null }
     | { __typename?: 'GocardlessProvider' }
+    | { __typename?: 'MastercardProvider' }
     | { __typename?: 'MoneyhashProvider' }
     | { __typename?: 'StripeProvider' }
    | null, paymentProviders?: { __typename?: 'PaymentProviderCollection', collection: Array<
@@ -18055,6 +18187,7 @@ export type FlutterwaveIntegrationDetailsQuery = { __typename?: 'Query', payment
       | { __typename?: 'CashfreeProvider' }
       | { __typename?: 'FlutterwaveProvider', id: string }
       | { __typename?: 'GocardlessProvider' }
+      | { __typename?: 'MastercardProvider' }
       | { __typename?: 'MoneyhashProvider' }
       | { __typename?: 'StripeProvider' }
     > } | null };
@@ -18072,6 +18205,7 @@ export type GetFlutterwaveIntegrationsListQuery = { __typename?: 'Query', paymen
       | { __typename?: 'CashfreeProvider' }
       | { __typename?: 'FlutterwaveProvider', id: string, name: string, code: string }
       | { __typename?: 'GocardlessProvider' }
+      | { __typename?: 'MastercardProvider' }
       | { __typename?: 'MoneyhashProvider' }
       | { __typename?: 'StripeProvider' }
     > } | null };
@@ -18090,6 +18224,7 @@ export type GetGocardlessIntegrationsDetailsQuery = { __typename?: 'Query', paym
     | { __typename?: 'CashfreeProvider' }
     | { __typename?: 'FlutterwaveProvider' }
     | { __typename?: 'GocardlessProvider', id: string, code: string, name: string, successRedirectUrl?: string | null, webhookSecret?: string | null }
+    | { __typename?: 'MastercardProvider' }
     | { __typename?: 'MoneyhashProvider' }
     | { __typename?: 'StripeProvider' }
    | null, paymentProviders?: { __typename?: 'PaymentProviderCollection', collection: Array<
@@ -18097,6 +18232,7 @@ export type GetGocardlessIntegrationsDetailsQuery = { __typename?: 'Query', paym
       | { __typename?: 'CashfreeProvider' }
       | { __typename?: 'FlutterwaveProvider' }
       | { __typename?: 'GocardlessProvider', id: string }
+      | { __typename?: 'MastercardProvider' }
       | { __typename?: 'MoneyhashProvider' }
       | { __typename?: 'StripeProvider' }
     > } | null };
@@ -18123,6 +18259,7 @@ export type GetGocardlessIntegrationsListQuery = { __typename?: 'Query', payment
       | { __typename?: 'CashfreeProvider' }
       | { __typename?: 'FlutterwaveProvider' }
       | { __typename?: 'GocardlessProvider', id: string, name: string, code: string }
+      | { __typename?: 'MastercardProvider' }
       | { __typename?: 'MoneyhashProvider' }
       | { __typename?: 'StripeProvider' }
     > } | null };
@@ -18185,6 +18322,7 @@ export type IntegrationsSettingQuery = { __typename?: 'Query', paymentProviders?
       | { __typename?: 'CashfreeProvider', id: string }
       | { __typename?: 'FlutterwaveProvider', id: string }
       | { __typename?: 'GocardlessProvider', id: string }
+      | { __typename?: 'MastercardProvider', id: string }
       | { __typename?: 'MoneyhashProvider', id: string }
       | { __typename?: 'StripeProvider', id: string }
     > } | null, integrations?: { __typename?: 'IntegrationCollection', collection: Array<
@@ -18242,6 +18380,51 @@ export type GetTaxesForTaxManagementIntegrationDetailsPageQueryVariables = Exact
 
 export type GetTaxesForTaxManagementIntegrationDetailsPageQuery = { __typename?: 'Query', taxes: { __typename?: 'TaxCollection', collection: Array<{ __typename?: 'Tax', id: string, code: string, name: string, rate: number }> } };
 
+export type MastercardIntegrationDetailsFragment = { __typename?: 'MastercardProvider', id: string, name: string, code: string, merchantId?: any | null, apiPassword?: any | null, webhookSecret?: string | null, region?: string | null, testMode?: boolean | null };
+
+export type MastercardIntegrationDetailsQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  type?: InputMaybe<ProviderTypeEnum>;
+}>;
+
+
+export type MastercardIntegrationDetailsQuery = { __typename?: 'Query', paymentProvider?:
+    | { __typename?: 'AdyenProvider' }
+    | { __typename?: 'CashfreeProvider' }
+    | { __typename?: 'FlutterwaveProvider' }
+    | { __typename?: 'GocardlessProvider' }
+    | { __typename?: 'MastercardProvider', id: string, name: string, code: string, merchantId?: any | null, apiPassword?: any | null, webhookSecret?: string | null, region?: string | null, testMode?: boolean | null }
+    | { __typename?: 'MoneyhashProvider' }
+    | { __typename?: 'StripeProvider' }
+   | null, paymentProviders?: { __typename?: 'PaymentProviderCollection', collection: Array<
+      | { __typename?: 'AdyenProvider' }
+      | { __typename?: 'CashfreeProvider' }
+      | { __typename?: 'FlutterwaveProvider' }
+      | { __typename?: 'GocardlessProvider' }
+      | { __typename?: 'MastercardProvider', id: string }
+      | { __typename?: 'MoneyhashProvider' }
+      | { __typename?: 'StripeProvider' }
+    > } | null };
+
+export type MastercardIntegrationsFragment = { __typename?: 'MastercardProvider', id: string, name: string, code: string };
+
+export type GetMastercardIntegrationsListQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  type?: InputMaybe<ProviderTypeEnum>;
+}>;
+
+
+export type GetMastercardIntegrationsListQuery = { __typename?: 'Query', paymentProviders?: { __typename?: 'PaymentProviderCollection', collection: Array<
+      | { __typename?: 'AdyenProvider' }
+      | { __typename?: 'CashfreeProvider' }
+      | { __typename?: 'FlutterwaveProvider' }
+      | { __typename?: 'GocardlessProvider' }
+      | { __typename?: 'MastercardProvider', id: string, name: string, code: string }
+      | { __typename?: 'MoneyhashProvider' }
+      | { __typename?: 'StripeProvider' }
+    > } | null };
+
 export type MoneyhashIntegrationDetailsFragment = { __typename?: 'MoneyhashProvider', id: string, apiKey?: string | null, code: string, flowId?: string | null, name: string };
 
 export type GetMoneyhashIntegrationsDetailsQueryVariables = Exact<{
@@ -18256,6 +18439,7 @@ export type GetMoneyhashIntegrationsDetailsQuery = { __typename?: 'Query', payme
     | { __typename?: 'CashfreeProvider' }
     | { __typename?: 'FlutterwaveProvider' }
     | { __typename?: 'GocardlessProvider' }
+    | { __typename?: 'MastercardProvider' }
     | { __typename?: 'MoneyhashProvider', id: string, apiKey?: string | null, code: string, flowId?: string | null, name: string, successRedirectUrl?: string | null }
     | { __typename?: 'StripeProvider' }
    | null, paymentProviders?: { __typename?: 'PaymentProviderCollection', collection: Array<
@@ -18263,6 +18447,7 @@ export type GetMoneyhashIntegrationsDetailsQuery = { __typename?: 'Query', payme
       | { __typename?: 'CashfreeProvider' }
       | { __typename?: 'FlutterwaveProvider' }
       | { __typename?: 'GocardlessProvider' }
+      | { __typename?: 'MastercardProvider' }
       | { __typename?: 'MoneyhashProvider', id: string }
       | { __typename?: 'StripeProvider' }
     > } | null };
@@ -18280,6 +18465,7 @@ export type GetMoneyhashIntegrationsListQuery = { __typename?: 'Query', paymentP
       | { __typename?: 'CashfreeProvider' }
       | { __typename?: 'FlutterwaveProvider' }
       | { __typename?: 'GocardlessProvider' }
+      | { __typename?: 'MastercardProvider' }
       | { __typename?: 'MoneyhashProvider', id: string, name: string, code: string, apiKey?: string | null, flowId?: string | null }
       | { __typename?: 'StripeProvider' }
     > } | null };
@@ -18401,6 +18587,7 @@ export type GetStripeIntegrationsDetailsQuery = { __typename?: 'Query', paymentP
     | { __typename?: 'CashfreeProvider' }
     | { __typename?: 'FlutterwaveProvider' }
     | { __typename?: 'GocardlessProvider' }
+    | { __typename?: 'MastercardProvider' }
     | { __typename?: 'MoneyhashProvider' }
     | { __typename?: 'StripeProvider', id: string, code: string, name: string, secretKey?: any | null, successRedirectUrl?: string | null, supports3ds?: boolean | null, requireTermsOfServiceConsent?: boolean | null }
    | null, paymentProviders?: { __typename?: 'PaymentProviderCollection', collection: Array<
@@ -18408,6 +18595,7 @@ export type GetStripeIntegrationsDetailsQuery = { __typename?: 'Query', paymentP
       | { __typename?: 'CashfreeProvider' }
       | { __typename?: 'FlutterwaveProvider' }
       | { __typename?: 'GocardlessProvider' }
+      | { __typename?: 'MastercardProvider' }
       | { __typename?: 'MoneyhashProvider' }
       | { __typename?: 'StripeProvider', id: string }
     > } | null };
@@ -18425,6 +18613,7 @@ export type GetStripeIntegrationsListQuery = { __typename?: 'Query', paymentProv
       | { __typename?: 'CashfreeProvider' }
       | { __typename?: 'FlutterwaveProvider' }
       | { __typename?: 'GocardlessProvider' }
+      | { __typename?: 'MastercardProvider' }
       | { __typename?: 'MoneyhashProvider' }
       | { __typename?: 'StripeProvider', id: string, name: string, code: string, secretKey?: any | null, supports3ds?: boolean | null, requireTermsOfServiceConsent?: boolean | null }
     > } | null };
@@ -20345,6 +20534,9 @@ export const PaymentForPaymentsListFragmentDoc = gql`
     ... on GocardlessProvider {
       name
     }
+    ... on MastercardProvider {
+      name
+    }
     ... on MoneyhashProvider {
       name
     }
@@ -21375,6 +21567,18 @@ export const AddGocardlessProviderDialogFragmentDoc = gql`
   code
 }
     `;
+export const AddMastercardProviderDialogFragmentDoc = gql`
+    fragment AddMastercardProviderDialog on MastercardProvider {
+  id
+  name
+  code
+  merchantId
+  apiPassword
+  webhookSecret
+  region
+  testMode
+}
+    `;
 export const AddMoneyhashProviderDialogFragmentDoc = gql`
     fragment AddMoneyhashProviderDialog on MoneyhashProvider {
   id
@@ -21515,6 +21719,12 @@ export const DeleteFlutterwaveIntegrationDialogFragmentDoc = gql`
     `;
 export const DeleteGocardlessIntegrationDialogFragmentDoc = gql`
     fragment DeleteGocardlessIntegrationDialog on GocardlessProvider {
+  id
+  name
+}
+    `;
+export const DeleteMastercardIntegrationDialogFragmentDoc = gql`
+    fragment DeleteMastercardIntegrationDialog on MastercardProvider {
   id
   name
 }
@@ -25158,6 +25368,25 @@ export const PricingUnitFragmentDoc = gql`
   shortName
 }
     `;
+export const MastercardIntegrationDetailsFragmentDoc = gql`
+    fragment MastercardIntegrationDetails on MastercardProvider {
+  id
+  name
+  code
+  merchantId
+  apiPassword
+  webhookSecret
+  region
+  testMode
+}
+    `;
+export const MastercardIntegrationsFragmentDoc = gql`
+    fragment MastercardIntegrations on MastercardProvider {
+  id
+  name
+  code
+}
+    `;
 export const MoneyhashIntegrationDetailsFragmentDoc = gql`
     fragment MoneyhashIntegrationDetails on MoneyhashProvider {
   id
@@ -28413,6 +28642,12 @@ export const PaymentProvidersListForCustomerCreateEditExternalAppsAccordionDocum
         code
       }
       ... on MoneyhashProvider {
+        __typename
+        id
+        name
+        code
+      }
+      ... on MastercardProvider {
         __typename
         id
         name
@@ -33617,6 +33852,9 @@ export const GetProviderByCodeForAdyenDocument = gql`
     ... on MoneyhashProvider {
       id
     }
+    ... on MastercardProvider {
+      id
+    }
   }
 }
     `;
@@ -33925,6 +34163,9 @@ export const GetProviderByCodeForCashfreeDocument = gql`
     ... on MoneyhashProvider {
       id
     }
+    ... on MastercardProvider {
+      id
+    }
   }
 }
     `;
@@ -34057,6 +34298,9 @@ export const GetProviderByCodeForFlutterwaveDocument = gql`
     ... on MoneyhashProvider {
       id
     }
+    ... on MastercardProvider {
+      id
+    }
   }
 }
     `;
@@ -34183,6 +34427,9 @@ export const GetProviderByCodeForGocardlessDocument = gql`
       id
     }
     ... on MoneyhashProvider {
+      id
+    }
+    ... on MastercardProvider {
       id
     }
   }
@@ -34326,6 +34573,137 @@ export function useUpdateHubspotIntegrationMutation(baseOptions?: Apollo.Mutatio
 export type UpdateHubspotIntegrationMutationHookResult = ReturnType<typeof useUpdateHubspotIntegrationMutation>;
 export type UpdateHubspotIntegrationMutationResult = Apollo.MutationResult<UpdateHubspotIntegrationMutation>;
 export type UpdateHubspotIntegrationMutationOptions = Apollo.BaseMutationOptions<UpdateHubspotIntegrationMutation, UpdateHubspotIntegrationMutationVariables>;
+export const GetProviderByCodeForMastercardDocument = gql`
+    query getProviderByCodeForMastercard($code: String) {
+  paymentProvider(code: $code) {
+    ... on MastercardProvider {
+      id
+    }
+    ... on FlutterwaveProvider {
+      id
+    }
+    ... on CashfreeProvider {
+      id
+    }
+    ... on GocardlessProvider {
+      id
+    }
+    ... on AdyenProvider {
+      id
+    }
+    ... on StripeProvider {
+      id
+    }
+    ... on MoneyhashProvider {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetProviderByCodeForMastercardQuery__
+ *
+ * To run a query within a React component, call `useGetProviderByCodeForMastercardQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProviderByCodeForMastercardQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProviderByCodeForMastercardQuery({
+ *   variables: {
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useGetProviderByCodeForMastercardQuery(baseOptions?: Apollo.QueryHookOptions<GetProviderByCodeForMastercardQuery, GetProviderByCodeForMastercardQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProviderByCodeForMastercardQuery, GetProviderByCodeForMastercardQueryVariables>(GetProviderByCodeForMastercardDocument, options);
+      }
+export function useGetProviderByCodeForMastercardLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProviderByCodeForMastercardQuery, GetProviderByCodeForMastercardQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProviderByCodeForMastercardQuery, GetProviderByCodeForMastercardQueryVariables>(GetProviderByCodeForMastercardDocument, options);
+        }
+// @ts-ignore
+export function useGetProviderByCodeForMastercardSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetProviderByCodeForMastercardQuery, GetProviderByCodeForMastercardQueryVariables>): Apollo.UseSuspenseQueryResult<GetProviderByCodeForMastercardQuery, GetProviderByCodeForMastercardQueryVariables>;
+export function useGetProviderByCodeForMastercardSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetProviderByCodeForMastercardQuery, GetProviderByCodeForMastercardQueryVariables>): Apollo.UseSuspenseQueryResult<GetProviderByCodeForMastercardQuery | undefined, GetProviderByCodeForMastercardQueryVariables>;
+export function useGetProviderByCodeForMastercardSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetProviderByCodeForMastercardQuery, GetProviderByCodeForMastercardQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetProviderByCodeForMastercardQuery, GetProviderByCodeForMastercardQueryVariables>(GetProviderByCodeForMastercardDocument, options);
+        }
+export type GetProviderByCodeForMastercardQueryHookResult = ReturnType<typeof useGetProviderByCodeForMastercardQuery>;
+export type GetProviderByCodeForMastercardLazyQueryHookResult = ReturnType<typeof useGetProviderByCodeForMastercardLazyQuery>;
+export type GetProviderByCodeForMastercardSuspenseQueryHookResult = ReturnType<typeof useGetProviderByCodeForMastercardSuspenseQuery>;
+export type GetProviderByCodeForMastercardQueryResult = Apollo.QueryResult<GetProviderByCodeForMastercardQuery, GetProviderByCodeForMastercardQueryVariables>;
+export const AddMastercardPaymentProviderDocument = gql`
+    mutation addMastercardPaymentProvider($input: AddMastercardPaymentProviderInput!) {
+  addMastercardPaymentProvider(input: $input) {
+    id
+    ...AddMastercardProviderDialog
+  }
+}
+    ${AddMastercardProviderDialogFragmentDoc}`;
+export type AddMastercardPaymentProviderMutationFn = Apollo.MutationFunction<AddMastercardPaymentProviderMutation, AddMastercardPaymentProviderMutationVariables>;
+
+/**
+ * __useAddMastercardPaymentProviderMutation__
+ *
+ * To run a mutation, you first call `useAddMastercardPaymentProviderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddMastercardPaymentProviderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addMastercardPaymentProviderMutation, { data, loading, error }] = useAddMastercardPaymentProviderMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddMastercardPaymentProviderMutation(baseOptions?: Apollo.MutationHookOptions<AddMastercardPaymentProviderMutation, AddMastercardPaymentProviderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddMastercardPaymentProviderMutation, AddMastercardPaymentProviderMutationVariables>(AddMastercardPaymentProviderDocument, options);
+      }
+export type AddMastercardPaymentProviderMutationHookResult = ReturnType<typeof useAddMastercardPaymentProviderMutation>;
+export type AddMastercardPaymentProviderMutationResult = Apollo.MutationResult<AddMastercardPaymentProviderMutation>;
+export type AddMastercardPaymentProviderMutationOptions = Apollo.BaseMutationOptions<AddMastercardPaymentProviderMutation, AddMastercardPaymentProviderMutationVariables>;
+export const UpdateMastercardPaymentProviderDocument = gql`
+    mutation updateMastercardPaymentProvider($input: UpdateMastercardPaymentProviderInput!) {
+  updateMastercardPaymentProvider(input: $input) {
+    id
+    ...AddMastercardProviderDialog
+  }
+}
+    ${AddMastercardProviderDialogFragmentDoc}`;
+export type UpdateMastercardPaymentProviderMutationFn = Apollo.MutationFunction<UpdateMastercardPaymentProviderMutation, UpdateMastercardPaymentProviderMutationVariables>;
+
+/**
+ * __useUpdateMastercardPaymentProviderMutation__
+ *
+ * To run a mutation, you first call `useUpdateMastercardPaymentProviderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMastercardPaymentProviderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMastercardPaymentProviderMutation, { data, loading, error }] = useUpdateMastercardPaymentProviderMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateMastercardPaymentProviderMutation(baseOptions?: Apollo.MutationHookOptions<UpdateMastercardPaymentProviderMutation, UpdateMastercardPaymentProviderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateMastercardPaymentProviderMutation, UpdateMastercardPaymentProviderMutationVariables>(UpdateMastercardPaymentProviderDocument, options);
+      }
+export type UpdateMastercardPaymentProviderMutationHookResult = ReturnType<typeof useUpdateMastercardPaymentProviderMutation>;
+export type UpdateMastercardPaymentProviderMutationResult = Apollo.MutationResult<UpdateMastercardPaymentProviderMutation>;
+export type UpdateMastercardPaymentProviderMutationOptions = Apollo.BaseMutationOptions<UpdateMastercardPaymentProviderMutation, UpdateMastercardPaymentProviderMutationVariables>;
 export const GetProviderByCodeForMoneyhashDocument = gql`
     query getProviderByCodeForMoneyhash($code: String) {
   paymentProvider(code: $code) {
@@ -34345,6 +34723,9 @@ export const GetProviderByCodeForMoneyhashDocument = gql`
       id
     }
     ... on MoneyhashProvider {
+      id
+    }
+    ... on MastercardProvider {
       id
     }
   }
@@ -34609,6 +34990,9 @@ export const GetProviderByCodeForStripeDocument = gql`
       id
     }
     ... on MoneyhashProvider {
+      id
+    }
+    ... on MastercardProvider {
       id
     }
   }
@@ -35447,6 +35831,39 @@ export function useDeleteGocardlessMutation(baseOptions?: Apollo.MutationHookOpt
 export type DeleteGocardlessMutationHookResult = ReturnType<typeof useDeleteGocardlessMutation>;
 export type DeleteGocardlessMutationResult = Apollo.MutationResult<DeleteGocardlessMutation>;
 export type DeleteGocardlessMutationOptions = Apollo.BaseMutationOptions<DeleteGocardlessMutation, DeleteGocardlessMutationVariables>;
+export const DeleteMastercardIntegrationDocument = gql`
+    mutation deleteMastercardIntegration($input: DestroyPaymentProviderInput!) {
+  destroyPaymentProvider(input: $input) {
+    id
+  }
+}
+    `;
+export type DeleteMastercardIntegrationMutationFn = Apollo.MutationFunction<DeleteMastercardIntegrationMutation, DeleteMastercardIntegrationMutationVariables>;
+
+/**
+ * __useDeleteMastercardIntegrationMutation__
+ *
+ * To run a mutation, you first call `useDeleteMastercardIntegrationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteMastercardIntegrationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteMastercardIntegrationMutation, { data, loading, error }] = useDeleteMastercardIntegrationMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeleteMastercardIntegrationMutation(baseOptions?: Apollo.MutationHookOptions<DeleteMastercardIntegrationMutation, DeleteMastercardIntegrationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteMastercardIntegrationMutation, DeleteMastercardIntegrationMutationVariables>(DeleteMastercardIntegrationDocument, options);
+      }
+export type DeleteMastercardIntegrationMutationHookResult = ReturnType<typeof useDeleteMastercardIntegrationMutation>;
+export type DeleteMastercardIntegrationMutationResult = Apollo.MutationResult<DeleteMastercardIntegrationMutation>;
+export type DeleteMastercardIntegrationMutationOptions = Apollo.BaseMutationOptions<DeleteMastercardIntegrationMutation, DeleteMastercardIntegrationMutationVariables>;
 export const DeleteMoneyhashIntegrationDocument = gql`
     mutation deleteMoneyhashIntegration($input: DestroyPaymentProviderInput!) {
   destroyPaymentProvider(input: $input) {
@@ -50289,6 +50706,9 @@ export const IntegrationsSettingDocument = gql`
       ... on FlutterwaveProvider {
         id
       }
+      ... on MastercardProvider {
+        id
+      }
     }
   }
   integrations(limit: $limit) {
@@ -50617,6 +51037,112 @@ export type GetTaxesForTaxManagementIntegrationDetailsPageQueryHookResult = Retu
 export type GetTaxesForTaxManagementIntegrationDetailsPageLazyQueryHookResult = ReturnType<typeof useGetTaxesForTaxManagementIntegrationDetailsPageLazyQuery>;
 export type GetTaxesForTaxManagementIntegrationDetailsPageSuspenseQueryHookResult = ReturnType<typeof useGetTaxesForTaxManagementIntegrationDetailsPageSuspenseQuery>;
 export type GetTaxesForTaxManagementIntegrationDetailsPageQueryResult = Apollo.QueryResult<GetTaxesForTaxManagementIntegrationDetailsPageQuery, GetTaxesForTaxManagementIntegrationDetailsPageQueryVariables>;
+export const MastercardIntegrationDetailsDocument = gql`
+    query mastercardIntegrationDetails($id: ID!, $limit: Int, $type: ProviderTypeEnum) {
+  paymentProvider(id: $id) {
+    ... on MastercardProvider {
+      id
+      ...MastercardIntegrationDetails
+    }
+  }
+  paymentProviders(limit: $limit, type: $type) {
+    collection {
+      ... on MastercardProvider {
+        id
+      }
+    }
+  }
+}
+    ${MastercardIntegrationDetailsFragmentDoc}`;
+
+/**
+ * __useMastercardIntegrationDetailsQuery__
+ *
+ * To run a query within a React component, call `useMastercardIntegrationDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMastercardIntegrationDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMastercardIntegrationDetailsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      limit: // value for 'limit'
+ *      type: // value for 'type'
+ *   },
+ * });
+ */
+export function useMastercardIntegrationDetailsQuery(baseOptions: Apollo.QueryHookOptions<MastercardIntegrationDetailsQuery, MastercardIntegrationDetailsQueryVariables> & ({ variables: MastercardIntegrationDetailsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MastercardIntegrationDetailsQuery, MastercardIntegrationDetailsQueryVariables>(MastercardIntegrationDetailsDocument, options);
+      }
+export function useMastercardIntegrationDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MastercardIntegrationDetailsQuery, MastercardIntegrationDetailsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MastercardIntegrationDetailsQuery, MastercardIntegrationDetailsQueryVariables>(MastercardIntegrationDetailsDocument, options);
+        }
+// @ts-ignore
+export function useMastercardIntegrationDetailsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<MastercardIntegrationDetailsQuery, MastercardIntegrationDetailsQueryVariables>): Apollo.UseSuspenseQueryResult<MastercardIntegrationDetailsQuery, MastercardIntegrationDetailsQueryVariables>;
+export function useMastercardIntegrationDetailsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<MastercardIntegrationDetailsQuery, MastercardIntegrationDetailsQueryVariables>): Apollo.UseSuspenseQueryResult<MastercardIntegrationDetailsQuery | undefined, MastercardIntegrationDetailsQueryVariables>;
+export function useMastercardIntegrationDetailsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<MastercardIntegrationDetailsQuery, MastercardIntegrationDetailsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<MastercardIntegrationDetailsQuery, MastercardIntegrationDetailsQueryVariables>(MastercardIntegrationDetailsDocument, options);
+        }
+export type MastercardIntegrationDetailsQueryHookResult = ReturnType<typeof useMastercardIntegrationDetailsQuery>;
+export type MastercardIntegrationDetailsLazyQueryHookResult = ReturnType<typeof useMastercardIntegrationDetailsLazyQuery>;
+export type MastercardIntegrationDetailsSuspenseQueryHookResult = ReturnType<typeof useMastercardIntegrationDetailsSuspenseQuery>;
+export type MastercardIntegrationDetailsQueryResult = Apollo.QueryResult<MastercardIntegrationDetailsQuery, MastercardIntegrationDetailsQueryVariables>;
+export const GetMastercardIntegrationsListDocument = gql`
+    query getMastercardIntegrationsList($limit: Int, $type: ProviderTypeEnum) {
+  paymentProviders(limit: $limit, type: $type) {
+    collection {
+      ... on MastercardProvider {
+        id
+        ...MastercardIntegrations
+        ...DeleteMastercardIntegrationDialog
+      }
+    }
+  }
+}
+    ${MastercardIntegrationsFragmentDoc}
+${DeleteMastercardIntegrationDialogFragmentDoc}`;
+
+/**
+ * __useGetMastercardIntegrationsListQuery__
+ *
+ * To run a query within a React component, call `useGetMastercardIntegrationsListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMastercardIntegrationsListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMastercardIntegrationsListQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      type: // value for 'type'
+ *   },
+ * });
+ */
+export function useGetMastercardIntegrationsListQuery(baseOptions?: Apollo.QueryHookOptions<GetMastercardIntegrationsListQuery, GetMastercardIntegrationsListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMastercardIntegrationsListQuery, GetMastercardIntegrationsListQueryVariables>(GetMastercardIntegrationsListDocument, options);
+      }
+export function useGetMastercardIntegrationsListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMastercardIntegrationsListQuery, GetMastercardIntegrationsListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMastercardIntegrationsListQuery, GetMastercardIntegrationsListQueryVariables>(GetMastercardIntegrationsListDocument, options);
+        }
+// @ts-ignore
+export function useGetMastercardIntegrationsListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMastercardIntegrationsListQuery, GetMastercardIntegrationsListQueryVariables>): Apollo.UseSuspenseQueryResult<GetMastercardIntegrationsListQuery, GetMastercardIntegrationsListQueryVariables>;
+export function useGetMastercardIntegrationsListSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMastercardIntegrationsListQuery, GetMastercardIntegrationsListQueryVariables>): Apollo.UseSuspenseQueryResult<GetMastercardIntegrationsListQuery | undefined, GetMastercardIntegrationsListQueryVariables>;
+export function useGetMastercardIntegrationsListSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMastercardIntegrationsListQuery, GetMastercardIntegrationsListQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMastercardIntegrationsListQuery, GetMastercardIntegrationsListQueryVariables>(GetMastercardIntegrationsListDocument, options);
+        }
+export type GetMastercardIntegrationsListQueryHookResult = ReturnType<typeof useGetMastercardIntegrationsListQuery>;
+export type GetMastercardIntegrationsListLazyQueryHookResult = ReturnType<typeof useGetMastercardIntegrationsListLazyQuery>;
+export type GetMastercardIntegrationsListSuspenseQueryHookResult = ReturnType<typeof useGetMastercardIntegrationsListSuspenseQuery>;
+export type GetMastercardIntegrationsListQueryResult = Apollo.QueryResult<GetMastercardIntegrationsListQuery, GetMastercardIntegrationsListQueryVariables>;
 export const GetMoneyhashIntegrationsDetailsDocument = gql`
     query getMoneyhashIntegrationsDetails($id: ID!, $limit: Int, $type: ProviderTypeEnum) {
   paymentProvider(id: $id) {
